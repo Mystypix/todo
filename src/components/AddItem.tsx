@@ -24,7 +24,10 @@ export const AddItem = () => {
 
   return (
     <div>
-      <label htmlFor={ADD_ITEM_MODAL_ID} className="btn-outline btn-circle btn">
+      <label
+        htmlFor={ADD_ITEM_MODAL_ID}
+        className="btn-outline btn-circle btn fixed bottom-4 right-4"
+      >
         +
       </label>
       <input type="checkbox" id={ADD_ITEM_MODAL_ID} className="modal-toggle" />
