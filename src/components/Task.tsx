@@ -1,20 +1,27 @@
 import { api } from "~/utils/api";
 
-export const Task = ({ id, description }) => {
-  const removeTask = api.task.removeTask.useMutation();
+type TaskProps = {
+  description: string;
+  id: string;
+  title: string;
+};
+
+export const Task = ({ description, id, title }: TaskProps) => {
+  //   const removeTask = api.task.removeTask.useMutation();
 
   return (
-    <div className="w-full rounded-lg bg-neutral py-3 px-5 text-neutral-content">
+    <div className="w-full rounded-lg bg-info-content py-3 px-5 text-neutral-content">
       <div className="">
-        {description}
+        <div>{title}</div>
+        <div>{description}</div>
         <button className="btn-sm btn">Done</button>
-        <button
+        {/* <button
           className="btn-sm btn"
           type="button"
           onClick={() => removeTask.mutate({ id })}
         >
           Remove
-        </button>
+        </button> */}
       </div>
     </div>
   );

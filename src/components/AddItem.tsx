@@ -6,6 +6,7 @@ const ADD_ITEM_MODAL_ID = "add-item";
 
 type FormData = {
   description: string;
+  title: string;
 };
 
 export const AddItem = () => {
@@ -26,7 +27,7 @@ export const AddItem = () => {
     <div>
       <label
         htmlFor={ADD_ITEM_MODAL_ID}
-        className="btn-outline btn-circle btn fixed bottom-4 right-4"
+        className="btn-primary btn-circle btn fixed bottom-4 right-4"
       >
         +
       </label>
@@ -37,12 +38,21 @@ export const AddItem = () => {
       >
         <div className="modal-box relative">
           <form onSubmit={handleSubmit(onSubmit)}>
+            <label className="label">
+              <span className="label-text">Title</span>
+            </label>
             <input
               type="text"
-              placeholder="Task..."
-              className="input-bordered input-primary input mr-4 w-full max-w-xs"
-              {...register("description", { required: true })}
+              className="input-bordered input-primary input mb-4 w-full max-w-xs"
+              {...register("title", { required: true })}
             />
+            <label className="label">
+              <span className="label-text">Description</span>
+            </label>
+            <textarea
+              className="textarea-primary textarea mb-4 w-full resize-none"
+              {...register("description", { required: true })}
+            ></textarea>
             <button type="submit" className="btn-primary btn">
               Add task
             </button>
