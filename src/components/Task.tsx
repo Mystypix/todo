@@ -7,15 +7,31 @@ type TaskProps = {
 };
 
 export const Task = ({ description, id, title }: TaskProps) => {
-  const removeTask = api.task.removeTask.useMutation();
+  const utils = api.useContext();
+  const finishTask = api.task.finishTask.useMutation({
+    onSettled: async () => {
+      await utils.task.getUnresolved.invalidate();
+    },
+  });
+  const removeTask = api.task.removeTask.useMutation({
+    onSettled: async () => {
+      await utils.task.getUnresolved.invalidate();
+    },
+  });
 
   return (
-    <div className="w-full rounded-lg bg-info-content py-3 px-5 text-neutral-content">
+    <div
+      key={id}
+      className="w-full rounded-lg bg-info-content py-3 px-5 text-neutral-content"
+    >
       <div className="">
         <div className="mb-2">{title}</div>
         {description && <div>{description}</div>}
         <div className="flex justify-between">
-          <button className="btn-primary btn-sm btn-square btn">
+          <button
+            className="btn-primary btn-sm btn-square btn"
+            onClick={() => finishTask.mutate({ id })}
+          >
             <svg
               width="28"
               height="28"

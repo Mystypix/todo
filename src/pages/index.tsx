@@ -28,7 +28,7 @@ export default Home;
 const AuthShowcase: React.FC = () => {
   const { data: sessionData } = useSession();
 
-  const { data: tasks } = api.task.getUnresolved.useQuery(
+  const { data: tasks, isLoading } = api.task.getUnresolved.useQuery(
     undefined, // no input
     { enabled: sessionData?.user !== undefined }
   );
@@ -49,7 +49,9 @@ const AuthShowcase: React.FC = () => {
       >
         {sessionData ? "Sign out" : "Sign in"}
       </button> */}
-      {tasks &&
+      {isLoading && <div>Loading...</div>}
+      {!isLoading &&
+        tasks &&
         tasks.map(({ id, ...rest }) => <Task key={id} id={id} {...rest} />)}
       {sessionData && <AddItem />}
       {sessionData && <FastForm />}

@@ -12,10 +12,27 @@ export const FastForm = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
   const modalControlInput = useRef<HTMLLabelElement>(null);
-  const useMutate = api.task.addTask.useMutation();
+  const utils = api.useContext();
+  const useMutate = api.task.addTask.useMutation({
+    // onMutate: async (newEntry) => {
+    //   await utils.task.getUnresolved.cancel();
+    //   utils.task.getUnresolved.setData(undefined, (prevEntries) => {
+    //     if (prevEntries) {
+    //       return [newEntry, ...prevEntries];
+    //     } else {
+    //       return [newEntry];
+    //     }
+    //   });
+    // },
+    onSettled: async () => {
+      reset();
+      await utils.task.getUnresolved.invalidate();
+    },
+  });
 
   const onSubmit = (data: FormData) => {
     useMutate.mutate(data);
