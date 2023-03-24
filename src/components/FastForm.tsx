@@ -2,19 +2,13 @@ import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { FAST_ADD_ITEM_MODAL_ID } from "~/const/modalIds";
 import { api } from "~/utils/api";
-
-type FormData = {
-  description: string;
-  title: string;
-};
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FastAddItemSchema, fastAddItemSchema } from "~/schema/forms";
 
 export const FastForm = () => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, reset } = useForm<FastAddItemSchema>({
+    resolver: zodResolver(fastAddItemSchema),
+  });
   const modalControlInput = useRef<HTMLLabelElement>(null);
   const utils = api.useContext();
   const useMutate = api.task.addTask.useMutation({
@@ -34,7 +28,7 @@ export const FastForm = () => {
     },
   });
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = (data: FastAddItemSchema) => {
     useMutate.mutate(data);
     modalControlInput?.current?.click();
   };
@@ -51,7 +45,7 @@ export const FastForm = () => {
         ref={modalControlInput}
       >
         <div className="modal-box relative text-center">
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={void handleSubmit(onSubmit)}>
             <label className="label">
               <span className="label-text">Title</span>
             </label>
