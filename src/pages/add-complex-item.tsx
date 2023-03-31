@@ -32,7 +32,7 @@ const AddComplexItem = () => {
   };
 
   return (
-    <div>
+    <div className="p-3">
       <form
         onSubmit={(data) => {
           data.preventDefault();
@@ -66,6 +66,7 @@ const AddComplexItem = () => {
             return (
               <Datepicker
                 {...field}
+                // @ts-expect-error - fix of console error
                 ref={null} // To prevent error - field contains ref value
                 value={field.value}
                 containerClassName="mb-4 w-auto"
