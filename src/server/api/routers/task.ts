@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { fastAddItemSchema } from "~/schema/forms";
 
 import {
   createTRPCRouter,
@@ -6,12 +7,7 @@ import {
 } from "~/server/api/trpc";
 
 export const taskRouter = createTRPCRouter({
-  addTask: protectedProcedure.input(
-    z.object({
-      title: z.string(),
-      description: z.string().optional(),
-    })
-  ).mutation(async ({ctx, input}) => {
+  addTask: protectedProcedure.input(fastAddItemSchema).mutation(async ({ctx, input}) => {
     try {
       return await ctx.prisma.task.create({
         data: {
