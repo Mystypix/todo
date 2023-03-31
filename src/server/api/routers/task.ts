@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { fastAddItemSchema } from "~/schema/forms";
+import { complexAddItemSchema, fastAddItemSchema } from "~/schema/forms";
 
 import {
   createTRPCRouter,
@@ -7,11 +7,28 @@ import {
 } from "~/server/api/trpc";
 
 export const taskRouter = createTRPCRouter({
-  addTask: protectedProcedure.input(fastAddItemSchema).mutation(async ({ctx, input}) => {
+  addFastTask: protectedProcedure.input(fastAddItemSchema).mutation(async ({ctx, input}) => {
     try {
       return await ctx.prisma.task.create({
         data: {
           ...input,
+          user: {
+            connect: {
+              email: ctx.session.user.email || undefined,
+            }
+          }
+        }
+      })
+    } catch (error) {
+      console.error('Fuck', error)
+    }
+  }),
+  addComplexTask: protectedProcedure.input(complexAddItemSchema).mutation(async ({ctx, input}) => {
+    try {
+      return await ctx.prisma.task.create({
+        data: {
+          ...input,
+          dueDate: input.dueDate.startDate,
           user: {
             connect: {
               email: ctx.session.user.email || undefined,

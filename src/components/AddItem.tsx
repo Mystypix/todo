@@ -1,7 +1,5 @@
-import {
-  COMPLEX_ADD_ITEM_MODAL_ID,
-  FAST_ADD_ITEM_MODAL_ID,
-} from "~/const/modalIds";
+import Link from "next/link";
+import { FAST_ADD_ITEM_MODAL_ID } from "~/const/modalIds";
 
 export const AddItem = () => {
   return (
@@ -42,8 +40,8 @@ export const AddItem = () => {
           </svg>
         </button>
         <div tabIndex={0} className="dropdown-content">
-          <label
-            htmlFor={COMPLEX_ADD_ITEM_MODAL_ID}
+          <Link
+            href="/add-complex-item"
             className="btn-primary btn-circle btn mb-2"
           >
             <svg
@@ -126,7 +124,7 @@ export const AddItem = () => {
                 strokeLinejoin="round"
               />
             </svg>
-          </label>
+          </Link>
           <label
             htmlFor={FAST_ADD_ITEM_MODAL_ID}
             className="btn-primary btn-circle btn mb-2"

@@ -2,16 +2,13 @@ import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { FAST_ADD_ITEM_MODAL_ID } from "~/const/modalIds";
 import { api } from "~/utils/api";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { FastAddItemSchema, fastAddItemSchema } from "~/schema/forms";
+import { FastAddItemSchema } from "~/schema/forms";
 
 export const FastForm = () => {
-  const { register, handleSubmit, reset } = useForm<FastAddItemSchema>({
-    resolver: zodResolver(fastAddItemSchema),
-  });
+  const { register, handleSubmit, reset } = useForm<FastAddItemSchema>();
   const modalControlInput = useRef<HTMLLabelElement>(null);
   const utils = api.useContext();
-  const useMutate = api.task.addTask.useMutation({
+  const useMutate = api.task.addFastTask.useMutation({
     // onMutate: async (newEntry) => {
     //   await utils.task.getUnresolved.cancel();
     //   utils.task.getUnresolved.setData(undefined, (prevEntries) => {
@@ -32,6 +29,7 @@ export const FastForm = () => {
     useMutate.mutate(data);
     modalControlInput?.current?.click();
   };
+
   return (
     <>
       <input

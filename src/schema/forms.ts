@@ -8,6 +8,10 @@ export const fastAddItemSchema = z.object({
 export const complexAddItemSchema = z.object({
     title: z.string(),
     description: z.string().optional(),
+    dueDate: z.object({
+        startDate: z.string(),
+        endDate: z.string(),
+    }),
 })
 
 export type FastAddItemSchema = z.infer<typeof fastAddItemSchema>;
